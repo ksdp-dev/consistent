@@ -1,0 +1,8 @@
+{
+  "name": "Consistent",
+  "description": "A premium, minimal progressive web app to track goals and daily consistency. Inspired by Nothing OS and Apple design systems.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

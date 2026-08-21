@@ -1,0 +1,292 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile document containing user identity, calibration data and completion status",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase user authentication UID",
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "description": "User's preferred name",
+          "maxLength": 100,
+          "minLength": 1
+        },
+        "age": {
+          "type": "number",
+          "description": "User's age in years or null if unprovided"
+        },
+        "email": {
+          "type": "string",
+          "description": "User's primary email address",
+          "maxLength": 200
+        },
+        "profileCompleted": {
+          "type": "boolean",
+          "description": "Whether the user has completed onboarding profile"
+        },
+        "onboardingCompleted": {
+          "type": "boolean",
+          "description": "Compatibility alias for profile completed"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp of profile creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp of last profile update"
+        }
+      },
+      "required": ["uid", "name", "profileCompleted"]
+    },
+    "Work": {
+      "title": "Work",
+      "description": "A user-owned work or task item",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the work item",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the user who owns this work item",
+          "maxLength": 128
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the work item",
+          "maxLength": 200,
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description or context of the work",
+          "maxLength": 2000
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "Timestamp of work item creation"
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Timestamp of last work item update"
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether the work item is completed"
+        },
+        "completedAt": {
+          "type": "number",
+          "description": "Timestamp when the work was completed or null"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether the work item is active"
+        }
+      },
+      "required": ["id", "userId", "title", "completed", "active", "createdAt", "updatedAt"]
+    },
+    "Routine": {
+      "title": "Routine",
+      "description": "A repeatable habit or scheduled routine definition",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the routine",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the user who owns this routine",
+          "maxLength": 128
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the routine",
+          "maxLength": 150,
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "Title compatibility alias",
+          "maxLength": 150
+        },
+        "note": {
+          "type": "string",
+          "description": "Tactical notes or instructions",
+          "maxLength": 1000
+        },
+        "notes": {
+          "type": "string",
+          "description": "Notes compatibility alias",
+          "maxLength": 1000
+        },
+        "time": {
+          "type": "string",
+          "description": "24-hour reminder time (HH:MM) or null",
+          "maxLength": 10
+        },
+        "reminderTime": {
+          "type": "string",
+          "description": "Reminder time compatibility alias",
+          "maxLength": 10
+        },
+        "days": {
+          "type": "array",
+          "description": "List of active weekdays (0=Sun, 1=Mon, ..., 6=Sat)"
+        },
+        "repeatSchedule": {
+          "type": "array",
+          "description": "Schedule compatibility alias"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether the routine is currently active"
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Active compatibility alias"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category classification",
+          "enum": ["Fitness", "Study", "Reading", "Work", "Health", "Custom"]
+        },
+        "emoji": {
+          "type": "string",
+          "description": "Emoji representation",
+          "maxLength": 10
+        },
+        "duration": {
+          "type": "number",
+          "description": "Estimated duration in minutes"
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "Timestamp of routine creation"
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Timestamp of routine update"
+        }
+      },
+      "required": ["id", "userId", "createdAt"]
+    },
+    "CompletionRecord": {
+      "title": "CompletionRecord",
+      "description": "An individual log of a routine or work completed on a specific calendar date",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for completion record",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the user",
+          "maxLength": 128
+        },
+        "itemId": {
+          "type": "string",
+          "description": "ID of the corresponding work or routine item",
+          "maxLength": 128
+        },
+        "itemType": {
+          "type": "string",
+          "description": "Type of item completed",
+          "enum": ["work", "routine"]
+        },
+        "date": {
+          "type": "string",
+          "description": "Local calendar date string (YYYY-MM-DD)",
+          "maxLength": 10
+        },
+        "completedAt": {
+          "type": "number",
+          "description": "Timestamp of completion"
+        },
+        "routineId": {
+          "type": "string",
+          "description": "Compatibility alias for routine itemId"
+        },
+        "routineName": {
+          "type": "string",
+          "description": "Snapshot name of the routine"
+        },
+        "dateString": {
+          "type": "string",
+          "description": "Compatibility alias for date"
+        }
+      },
+      "required": ["id", "userId", "itemId", "itemType", "date", "completedAt"]
+    },
+    "DailyStat": {
+      "title": "DailyStat",
+      "description": "Aggregated daily consistency metrics for a specific date",
+      "type": "object",
+      "properties": {
+        "dateString": {
+          "type": "string",
+          "description": "Local calendar date string (YYYY-MM-DD)",
+          "maxLength": 10
+        },
+        "completedCount": {
+          "type": "number",
+          "description": "Total completed routines for the day"
+        },
+        "scheduledCount": {
+          "type": "number",
+          "description": "Total scheduled routines for the day"
+        },
+        "dailyProgress": {
+          "type": "number",
+          "description": "Percentage progress (0-100)"
+        },
+        "isSuccessfulDay": {
+          "type": "boolean",
+          "description": "Whether 100% of scheduled routines were completed"
+        },
+        "totalMinutes": {
+          "type": "number",
+          "description": "Total focused minutes logged on this day"
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Epoch timestamp of last calculation"
+        }
+      },
+      "required": ["dateString", "completedCount", "scheduledCount", "dailyProgress", "isSuccessfulDay"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "UserProfile" },
+      "description": "Root user profile document"
+    },
+    "/users/{userId}/works/{workId}": {
+      "schema": { "$ref": "Work" },
+      "description": "Subcollection of user-owned work tasks"
+    },
+    "/users/{userId}/routines/{routineId}": {
+      "schema": { "$ref": "Routine" },
+      "description": "Subcollection of user routines"
+    },
+    "/users/{userId}/completions/{completionId}": {
+      "schema": { "$ref": "CompletionRecord" },
+      "description": "Subcollection of completion history records"
+    },
+    "/users/{userId}/dailyStats/{dateString}": {
+      "schema": { "$ref": "DailyStat" },
+      "description": "Subcollection of daily aggregated statistics"
+    }
+  }
+}

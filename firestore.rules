@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // User profile document
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      // User works subcollection (Module 1)
+      match /works/{workId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // User routines subcollection
+      match /routines/{routineId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Legacy goals subcollection support
+      match /goals/{goalId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Routine & Work completions subcollection
+      match /completions/{completionId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Daily stats subcollection
+      match /dailyStats/{dateString} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+  }
+}
